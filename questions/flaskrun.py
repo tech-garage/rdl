@@ -1,5 +1,5 @@
 import optparse
-
+from flask_socketio import SocketIO
 
 def flaskrun(app, default_host="0.0.0.0", default_port="80"):
     """
@@ -22,8 +22,8 @@ def flaskrun(app, default_host="0.0.0.0", default_port="80"):
                       help=optparse.SUPPRESS_HELP)
 
     options, _ = parser.parse_args()
-
-    app.run(
+    socketio = SocketIO(app)
+    socketio.run(
         debug=options.debug,
         host=options.host,
         port=int(options.port)

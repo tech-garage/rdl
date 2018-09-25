@@ -1,6 +1,6 @@
 import json
 import pytest
-from helloworld.application import application
+from questions.application import application
 
 @pytest.fixture
 def client():
