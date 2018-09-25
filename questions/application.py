@@ -4,7 +4,7 @@ from questions.flaskrun import flaskrun
 import json
 
 
-application = Flask(__name__)
+application = Flask(__name__, template_folder='templates')
 application.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(application)
 
