@@ -1,7 +1,7 @@
 import optparse
 from flask_socketio import SocketIO
 
-def flaskrun(app, default_host="0.0.0.0", default_port="80"):
+def flaskrun(socketio, app, default_host="0.0.0.0", default_port="80"):
     """
     Takes a flask.Flask instance and runs it. Parses
     command-line flags to configure the app.
@@ -22,9 +22,8 @@ def flaskrun(app, default_host="0.0.0.0", default_port="80"):
                       help=optparse.SUPPRESS_HELP)
 
     options, _ = parser.parse_args()
-    socketio = SocketIO(app)
-    socketio.run(
-        debug=options.debug,
-        host=options.host,
-        port=int(options.port)
+    socketio.run(app,
+          debug=options.debug,
+          host=options.host,
+          port=int(options.port)
     )
