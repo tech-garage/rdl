@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO
 from questions.flaskrun import flaskrun
 import json
+import jinja2
+import csv
+import random
 
 #import csvs and random select
 with open('HS.csv', 'r') as infile:
