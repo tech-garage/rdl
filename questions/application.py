@@ -88,7 +88,7 @@ def blue():
 
 @application.route('/HS')
 def HS():
-  return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
+  return render_template('HS.html',)
   
 
 @application.route('/MS')
