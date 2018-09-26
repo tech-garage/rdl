@@ -7,7 +7,7 @@ import csv
 import random
 
 #import csvs and random select
-with open('HS.csv', 'r') as infile:
+with open('static/HS.csv', 'r') as infile:
   reader = csv.reader(infile)
   build = list(reader)
 columns = build[0]
