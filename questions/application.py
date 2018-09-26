@@ -1,5 +1,4 @@
 from flask import Flask, render_template, request, jsonify, url_for
-from pusher import Pusher
 import uuid
 import json
 from flask import Flask, render_template
