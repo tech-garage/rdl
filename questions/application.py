@@ -65,7 +65,7 @@ def feed():
 
 # Socket to transmit data to client
 @application.route('/admin/data', methods=['POST'])
-def data():
+def admindata():
     socketio.emit('msg', {'msg': 'data'}, broadcast=True)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
