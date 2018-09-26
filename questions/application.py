@@ -19,11 +19,12 @@ HS2 = {}
 for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
   HS2[row[0]] = dict 
-'''
+
 #MS CSV
-with open('MS.csv', 'r') as infile:
-  reader = csv.reader(infile)
-  build = list(reader)
+data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/MS.csv')
+reader = csv.reader(codecs.iterdecode(data, 'utf-8', errors='replace'))
+reader = csv.reader(infile)
+build = list(reader)
 columns = build[0]
 build = build[1:]
 MS2 = {}
@@ -32,16 +33,17 @@ for row in build:
   MS2[row[0]] = dict
 
 #ES CSV
-with open('ES.csv', 'r') as infile:
-  reader = csv.reader(infile)
-  build = list(reader)
+data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/ES.csv')
+reader = csv.reader(codecs.iterdecode(data, 'utf-8', errors='replace'))
+reader = csv.reader(infile)
+build = list(reader)
 columns = build[0]
 build = build[1:]
 ES2 = {}
 for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
   ES2[row[0]] = dict 
-'''
+
 
 application = Flask(__name__, template_folder='templates')
 application.config['SECRET_KEY'] = 'secret!'
@@ -94,7 +96,7 @@ def blue():
 def HS():
   return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
 
-''' 
+
 @application.route('/MS')
 def MS():
   return render_template('MS.html', row=MS2[random.choice(list(MS2.keys()))])
@@ -103,7 +105,7 @@ def MS():
 @application.route('/ES')
 def ES():
   return render_template('ES.html', row=ES2[random.choice(list(ES2.keys()))])
-'''
+
 
 
 @application.route('/end')
