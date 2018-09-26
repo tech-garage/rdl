@@ -86,12 +86,12 @@ def red():
 def blue():
   return render_template('blue.html',)
 
-
+'''
 @application.route('/HS')
 def HS():
   return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
-  
 '''
+''' 
 @application.route('/MS')
 def MS():
   return render_template('MS.html', row=MS2[random.choice(list(MS2.keys()))])
