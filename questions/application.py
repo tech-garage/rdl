@@ -5,7 +5,7 @@ import json
 import jinja2
 import csv
 import random
-
+'''
 #import csvs and random select
 with open('HS.csv', 'r') as infile:
   reader = csv.reader(infile)
@@ -38,7 +38,7 @@ for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
   ES2[row[0]] = dict 
 
-
+'''
 application = Flask(__name__, template_folder='templates')
 application.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(application)
@@ -88,17 +88,17 @@ def blue():
 
 @application.route('/HS')
 def HS():
-  return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
+  return render_template('HS.html',)
   
 
 @application.route('/MS')
 def MS():
-  return render_template('MS.html', row=MS2[random.choice(list(MS2.keys()))])
+  return render_template('MS.html',)
 
 
 @application.route('/ES')
 def ES():
-  return render_template('ES.html', row=ES2[random.choice(list(ES2.keys()))])
+  return render_template('ES.html',)
 
 
 
