@@ -5,7 +5,7 @@ import json
 import jinja2
 import csv
 import random
-
+"""
 #import csvs and random select
 with open('HS.csv', 'r') as infile:
   reader = csv.reader(infile)
@@ -37,7 +37,7 @@ ES2 = {}
 for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
   ES2[row[0]] = dict 
-
+"""
 
 application = Flask(__name__, template_folder='templates')
 application.config['SECRET_KEY'] = 'secret!'
