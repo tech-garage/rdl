@@ -5,17 +5,20 @@ import json
 import jinja2
 import csv
 import random
+import urllib.request
+import codecs
 
 #import csvs and random select
-with open('static/HS.csv', 'r') as infile:
-  reader = csv.reader(infile)
-  build = list(reader)
+#import csvs and random select
+data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/HS.csv')
+reader = csv.reader(codecs.iterdecode(data, 'utf-8', errors='replace'))
+build = list(reader)
 columns = build[0]
 build = build[1:]
 HS2 = {}
 for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
-  HS2[row[0]] = dict 
+  HS2[row[0]] = dict
 '''
 #MS CSV
 with open('MS.csv', 'r') as infile:
@@ -86,11 +89,11 @@ def red():
 def blue():
   return render_template('blue.html',)
 
-'''
+
 @application.route('/HS')
 def HS():
   return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
-'''
+
 ''' 
 @application.route('/MS')
 def MS():
