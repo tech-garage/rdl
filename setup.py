@@ -5,6 +5,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'flask', 'flask_socketio'
+        'flask', 'flask_socketio', 'csv', 'random', 'json', 'uuid', 'jinja2'
     ],
 )
