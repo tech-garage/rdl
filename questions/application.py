@@ -3,6 +3,38 @@ from flask_socketio import SocketIO
 from questions.flaskrun import flaskrun
 import json
 
+#import csvs and random select
+with open('HS.csv', 'r') as infile:
+  reader = csv.reader(infile)
+  build = list(reader)
+columns = build[0]
+build = build[1:]
+HS2 = {}
+for row in build:
+  dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
+  HS2[row[0]] = dict
+#MS CSV
+with open('MS.csv', 'r') as infile:
+  reader = csv.reader(infile)
+  build = list(reader)
+columns = build[0]
+build = build[1:]
+MS2 = {}
+for row in build:
+  dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
+  MS2[row[0]] = dict
+
+#ES CSV
+with open('ES.csv', 'r') as infile:
+  reader = csv.reader(infile)
+  build = list(reader)
+columns = build[0]
+build = build[1:]
+ES2 = {}
+for row in build:
+  dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
+  ES2[row[0]] = dict 
+
 
 application = Flask(__name__, template_folder='templates')
 application.config['SECRET_KEY'] = 'secret!'
@@ -29,7 +61,7 @@ def feed():
 def data():
     socketio.emit('msg', {'msg': 'data'}, broadcast=True)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-    
+
 # index route, shows index.html view
 @application.route('/index')
 def admin():
