@@ -33,7 +33,7 @@ for row in build:
 
 #ES CSV
 data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/ES.csv')
-reader = csv.reader(codecs.iterdecode(data, 'utf-8', errors='replace')
+reader = csv.reader(codecs.iterdecode(data, 'utf-8', errors='replace'))
 build = list(reader)
 columns = build[0]
 build = build[1:]
