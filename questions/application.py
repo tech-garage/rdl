@@ -29,6 +29,89 @@ def feed():
 def data():
     socketio.emit('msg', {'msg': 'data'}, broadcast=True)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+    
+# index route, shows index.html view
+@application.route('/index')
+def admin():
+  return render_template('index.html')
+
+
+
+@application.route('/screen')
+def screen():
+  return render_template('screen.html')
+
+# feed route, shows feed.html view
+@application.route('/red')
+def red():
+  return render_template('red.html')
+  
+@application.route('/blue')
+def blue():
+  return render_template('blue.html',)
+
+
+@application.route('/HS')
+def HS():
+  return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
+  
+
+@application.route('/MS')
+def MS():
+  return render_template('MS.html', row=MS2[random.choice(list(MS2.keys()))])
+
+
+@application.route('/ES')
+def ES():
+  return render_template('ES.html', row=ES2[random.choice(list(ES2.keys()))])
+
+
+
+@application.route('/end')
+def end():
+  return render_template('end.html')
+
+
+@application.route('/files')
+def files():
+  return render_template('files.html')
+
+
+#red High School Middle School and Elementary teams sockets, 2 for each is required
+@application.route('/admin/redHS', methods=['POST'])
+def redHS(): 
+  socketio.emit('msg', {'msg': 'redHS'}, broadcast=True)
+
+@application.route('/admin/redMS', methods=['POST'])
+def redMS():
+  socketio.emit('msg', {'msg': 'redMS'}, broadcast=True)
+  
+
+@application.route('/admin/redES', methods=['POST'])
+def redES():
+  socketio.emit('msg', {'msg': 'redES'}, broadcast=True)
+ 
+
+@application.route('/admin/blueHS', methods=['POST'])
+def blueHS(): 
+  socketio.emit('msg', {'msg': 'blueHS'}, broadcast=True)
+
+@application.route('/admin/blueMS', methods=['POST'])
+def blueMS():
+  socketio.emit('msg', {'msg': 'blueMS'}, broadcast=True)
+  
+
+@application.route('/admin/blueES', methods=['POST'])
+def blueES():
+  socketio.emit('msg', {'msg': 'blueES'}, broadcast=True)
+  
+
+
+#reset Function
+@application.route('/admin/reset', methods=['POST'])
+def reset():
+  socketio.emit('msg', {'msg': 'reset'}, broadcast=True)
+  
 
 
 
