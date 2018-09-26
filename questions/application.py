@@ -7,7 +7,7 @@ import csv
 import random
 import urllib.request
 import codecs
-
+"""
 #import csvs and random select
 #import csvs and random select
 data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/HS.csv')
@@ -18,7 +18,7 @@ build = build[1:]
 HS2 = {}
 for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
-  HS2[row[0]] = dict
+  HS2[row[0]] = dict """
 '''
 #MS CSV
 with open('MS.csv', 'r') as infile:
