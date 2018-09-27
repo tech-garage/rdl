@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ color }} Team Screen</title>
+
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap-theme.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
+
+    <p style="margin-left: 2.5em;padding: 0 7em 2em 0;border-width: 2px; border-color: white; border-style:solid;">Example
+        of a paragraph with margin and padding.</p>
+
+    <style>
+        body {margin:0;}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: {{ color }};
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+li {
+    float: left;
+    color: white;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+span {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #5383d3;
+}
+
+
+    #timer {
+      display: block;
+      left: 50%;
+      text-align: center;
+      position: fixed;
+      bottom: 10px;
+    }
+
+
+</style>
+</head>
+
+<header>
+  <div id="timer">
+    <h2></h2>
+  </div>
+</header>
+
+<body>
+    <ul>
+        <li><a href="">{{ color }} Team Screen</a>  </li>
+    </ul>
+
+</body>
+
+
+<div id="data">
+    <img width="100%" id="slide" src="" />
+</div>
+
+<script type="text/javascript" charset="utf-8">
+    var question_timer = 0;
+    var timeoutHandle = 0;
+    var secondHandle = 0;
+    var slide_index = 0;
+    var slides = []
+    var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    function countdown(minutes) {
+      var seconds = 60;
+      var mins = minutes
+
+      function tick() {
+        var counter = document.getElementById("timer");
+        var current_minutes = mins - 1
+        seconds--;
+        counter.innerHTML =
+          current_minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+        if (seconds > 0) {
+          timeoutHandle = setTimeout(tick, 1000);
+        } else {
+
+          if (mins > 1) {
+
+            // countdown(mins-1);   never reach “00″ issue solved:Contributed by Victor Streithorst
+            secondHandle = setTimeout(function () {
+              countdown(mins - 1);
+            }, 1000);
+
+          } else {
+
+          }
+        }
+      }
+      tick();
+    }
+
+    socket.on('connect', function () {
+        //socket.emit('my event', {data: 'I\'m connected!'});
+    });
+    socket.on('msg', function (data) {
+
+        if (data.msg == "reset") {
+            location.reload();
+        }
+        else {
+            console.log(data)
+            slides = data.{{ color.lower() }}
+            $("#slide").attr('src', slides[slide_index]);
+
+            clearInterval(question_timer);
+            clearTimeout(timeoutHandle);
+            clearTimeout(secondHandle);
+            question_timer = window.setInterval(function() {
+                slide_index++;
+                if (slide_index >= slides.length) {
+                    slide_index = 0;
+                }
+                $("#slide").attr('src', slides[slide_index]);
+            }, data.delay * 1000)
+
+            countdown(data.total);
+        }
+    });
+
+
+</script>
+
+
+
+
+</html>

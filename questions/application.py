@@ -7,6 +7,8 @@ import csv
 import random
 import urllib.request
 import codecs
+import boto3
+from random import shuffle
 
 #import csvs and random select
 #import csvs and random select
@@ -152,6 +154,45 @@ def reset():
   socketio.emit('msg', {'msg': 'reset'}, broadcast=True)
   
 
+
+@application.route('/s3/admin')
+def s3_admin():
+  return render_template('s3/index.html')
+
+@application.route('/s3/admin/reset', methods=['POST'])
+def s3_reset():
+  socketio.emit('msg', {'msg': 'reset'}, broadcast=True)
+
+@application.route('/s3/admin/start', methods=['POST'])
+def s3_start():
+    s3 = boto3.client('s3')
+    blue_objects = s3.list_objects_v2(Bucket="robot-drone-league", Prefix=request.form['blue'] + '/')
+    blue_questions = []
+    for obj in blue_objects['Contents']:
+      if obj['Size'] > 0:
+        blue_questions.append('{}/{}/{}'.format(s3.meta.endpoint_url, 'robot-drone-league', obj['Key']))
+
+    shuffle(blue_questions)
+    red_objects = s3.list_objects_v2(Bucket="robot-drone-league", Prefix=request.form['red'] + '/')
+    red_questions = []
+    for obj in red_objects['Contents']:
+      if obj['Size'] > 0:
+        red_questions.append('{}/{}/{}'.format(s3.meta.endpoint_url, 'robot-drone-league', obj['Key']))
+    shuffle(red_questions)
+
+    socketio.emit('msg', {'blue': blue_questions, 'red': red_questions, 'delay': int(request.form['delay']), 'total': int(request.form['total'])}, broadcast=True)
+
+    return ""
+
+
+@application.route('/s3/screen')
+def s3_screen():
+  return render_template('s3/screen.html')
+
+
+@application.route('/s3/team/<color>')
+def s3_team_screen(color):
+  return render_template('s3/team.html', color=color)
 
 
 # run Flask app in debug mode
