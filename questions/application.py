@@ -50,32 +50,32 @@ application.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(application)
 
 
-@application.route('/')
-def index():
-  return render_template('admin.html')
 
+# simple flask app
+@application.route('/simple/admin')
+def admin():
+  return render_template('simple/admin.html')
 
-@application.route('/client')
+@application.route('/simple/client')
 def client():
-  return render_template('client.html')
+  return render_template('simple/client.html')
 
-
-@application.route('/feed')
+@application.route('/simple/feed')
 def feed():
-  return render_template('feed.html')
+  return render_template('simple/feed.html')
 
 
-# Socket to transmit data to client
+# Socket to transmit data to client Simple App
 @application.route('/admin/data', methods=['POST'])
 def admindata():
     socketio.emit('msg', {'msg': 'data'}, broadcast=True)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
-# index route, shows index.html view
-@application.route('/index')
-def admin():
-  return render_template('index.html')
+# Live app
 
+@application.route('/')
+def index():
+  return render_template('index.html')
 
 
 @application.route('/screen')
@@ -154,7 +154,7 @@ def reset():
   socketio.emit('msg', {'msg': 'reset'}, broadcast=True)
   
 
-
+#s3 demo
 @application.route('/s3/admin')
 def s3_admin():
   return render_template('s3/index.html')
