@@ -12,7 +12,7 @@ from random import shuffle
 
 #import csvs and random select
 #import csvs and random select
-'''data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/HS.csv')
+data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/HS.csv')
 reader = csv.reader(codecs.iterdecode(data, 'utf-8', errors='replace'))
 build = list(reader)
 columns = build[0]
@@ -20,7 +20,7 @@ build = build[1:]
 HS2 = {}
 for row in build:
   dict = {columns[1]: row[1], columns[2]: row[2], columns[3]: row[3]}
-  HS2[row[0]] = dict '''
+  HS2[row[0]] = dict 
 
 #MS CSV
 data = urllib.request.urlopen('https://raw.githubusercontent.com/DannylDasilva/F/master/MS.csv')
