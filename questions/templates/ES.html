@@ -72,42 +72,37 @@
 
   <style>
     #timer {
-      display: block;
-      left: 50%;
-      text-align: center;
       position: fixed;
+      text-align: center;
+      left: 50%;
+      transform: translate(-50%, 0%);
       bottom: 10px;
+      font-size: 10vw;
     }
   </style>
   <!-- div with the randomy generated questions-->
   <div id="wrapper">
     <div class="container">
       <div class="row justify-content-center align-items-center">
-
         <h3>{{ row['Name'] }}</h3>
       </div>
       <div class="row justify-content-center align-items-center">
         <h2> {{ row['Question'] }}</H2>
-
       </div>
-
     </div>
   </div>
 
   </div>
 
   <script>
-      window.setInterval(yourfunction, 2000);
-      
-      function yourfunction() { 
-        $('#wrapper').load("ES" +  ' #wrapper');
-         }
-      
-      </script>
+    window.setInterval(yourfunction, 2000);
+
+    function yourfunction() {
+      $('#wrapper').load("ES" + ' #wrapper');
+    }
+  </script>
 
 
 </body>
 
 </html>
-
-

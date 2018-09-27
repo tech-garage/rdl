@@ -72,11 +72,12 @@
 
   <style>
     #timer {
-      display: block;
-      left: 50%;
-      text-align: center;
       position: fixed;
+      text-align: center;
+      left: 50%;
+      transform: translate(-50%, 0%);
       bottom: 10px;
+      font-size: 10vw;
     }
   </style>
   <!-- div with the randomy generated questions-->
@@ -97,16 +98,13 @@
   </div>
 
   <script>
-      window.setInterval(yourfunction, 2000);
-      
-      function yourfunction() { 
-        $('#wrapper').load("MS" +  ' #wrapper');
-         }
-      
-      </script>
+    window.setInterval(yourfunction, 2000);
+
+    function yourfunction() {
+      $('#wrapper').load("MS" + ' #wrapper');
+    }
+  </script>
 
 </body>
 
 </html>
-
-
