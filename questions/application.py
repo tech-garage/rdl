@@ -53,15 +53,15 @@ socketio = SocketIO(application)
 
 # simple flask app
 @application.route('/simple/admin')
-def admin():
+def simple_admin():
   return render_template('simple/admin.html')
 
 @application.route('/simple/client')
-def client():
+def simple_client():
   return render_template('simple/client.html')
 
 @application.route('/simple/feed')
-def feed():
+def simple_feed():
   return render_template('simple/feed.html')
 
 
@@ -72,87 +72,61 @@ def admindata():
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
 
 # Live app
-
-@application.route('/')
-def index():
+@application.route('/admin')
+def admin():
   return render_template('index.html')
+
+@application.route('/admin/reset', methods=['POST'])
+def adminreset():
+  global redlevel 
+  global bluelevel
+  redlevel = ''
+  bluelevel = ''
+  socketio.emit('msg', {'msg': 'reset'}, broadcast=True)
+  return response
+
+redlevel = " "
+bluelevel = " "
+
+@application.route('/admin/start', methods=['Post'])
+def test4():
+  global redlevel 
+  global bluelevel
+  #hs = render_template('HS.html', row= HS)
+  #time.sleep(1)
+  redform = request.form.get('Red')
+  blueform = request.form.get('blue')
+  redlevel = redform
+  bluelevel = blueform
+  print(redlevel)
+  #select1 = request.form.get('Blue')
+  socketio.emit('msg', {'q': 'q', 'Red': str(redform), 'delay': int(request.form['delay']), 'total': int(request.form['total'])}, broadcast=True)
+  return '<html>working</html>'
 
 
 @application.route('/screen')
 def screen():
   return render_template('screen.html')
 
-# feed route, shows feed.html view
-@application.route('/red')
-def red():
-  return render_template('red.html')
-  
-@application.route('/blue')
-def blue():
-  return render_template('blue.html',)
 
+@application.route('/team/<color>')
+def team_screen(color):
+  print(redlevel)
+  if color == 'Red':
+    level = redlevel 
+  else:
+    level = bluelevel
+  print(level)
+  if level == "HS": 
+    dictionary = HS2[random.choice(list(HS2.keys()))]
+  elif level == "MS": 
+    dictionary = MS2[random.choice(list(MS2.keys()))]
+  elif level == "ES": 
+    dictionary = ES2[random.choice(list(ES2.keys()))]
+  else:
+     dictionary = {"":""}
+  return render_template('team.html', color=color, row=dictionary)
 
-@application.route('/HS')
-def HS():
-  return render_template('HS.html',  row=HS2[random.choice(list(HS2.keys()))])
-
-
-@application.route('/MS')
-def MS():
-  return render_template('MS.html', row=MS2[random.choice(list(MS2.keys()))])
-
-
-@application.route('/ES')
-def ES():
-  return render_template('ES.html', row=ES2[random.choice(list(ES2.keys()))])
-
-
-
-@application.route('/end')
-def end():
-  return render_template('end.html')
-
-
-@application.route('/files')
-def files():
-  return render_template('files.html')
-
-
-#red High School Middle School and Elementary teams sockets, 2 for each is required
-@application.route('/admin/redHS', methods=['POST'])
-def redHS(): 
-  socketio.emit('msg', {'msg': 'redHS'}, broadcast=True)
-
-@application.route('/admin/redMS', methods=['POST'])
-def redMS():
-  socketio.emit('msg', {'msg': 'redMS'}, broadcast=True)
-  
-
-@application.route('/admin/redES', methods=['POST'])
-def redES():
-  socketio.emit('msg', {'msg': 'redES'}, broadcast=True)
- 
-
-@application.route('/admin/blueHS', methods=['POST'])
-def blueHS(): 
-  socketio.emit('msg', {'msg': 'blueHS'}, broadcast=True)
-
-@application.route('/admin/blueMS', methods=['POST'])
-def blueMS():
-  socketio.emit('msg', {'msg': 'blueMS'}, broadcast=True)
-  
-
-@application.route('/admin/blueES', methods=['POST'])
-def blueES():
-  socketio.emit('msg', {'msg': 'blueES'}, broadcast=True)
-  
-
-
-#reset Function
-@application.route('/admin/reset', methods=['POST'])
-def reset():
-  socketio.emit('msg', {'msg': 'reset'}, broadcast=True)
-  
 
 #s3 demo
 @application.route('/s3/admin')

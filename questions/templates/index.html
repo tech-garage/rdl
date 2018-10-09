@@ -4,30 +4,36 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home!</title>
+    <title>Admin</title>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <script type="text/javascript">
         function buttonPress() {
 
-            var e = document.getElementById("blueTeam");
-            var blueData = e.options[e.selectedIndex].value;
-
-            var e = document.getElementById("redTeam");
-            var redData = e.options[e.selectedIndex].value;
-
-            console.log(blueData);
-            console.log(redData);
-
-            $.post("admin/" + blueData, function (data) {
-                alert(data);
+            var blue = $("#blueTeam").val()
+            var Red =  $("#RedTeam").val()
+            var delay = $("#delay").val()
+            var total = $("#total").val()
+            console.log(total);
+            console.log(Red);
+            console.log(blue);
+            
+            $.ajax({
+                type: "POST",
+                url: "/admin/start",
+                data: {
+                    blue: blue,
+                    Red: Red,
+                    total: total,
+                    delay: delay
+                },
+                success: function (data) {   
+                   // alert(data);
+                }
             });
-            $.post("admin/" + redData, function (data) {
-                alert(data);
-            });
+
         }
-
         function reset() {
-            $.post("admin/reset", function (data) {
+            $.post("/admin/reset", function (data) {
                 alert(data);
             });
 
@@ -41,24 +47,32 @@
 
 <body>
     <div id="box">
-        <h2>Click button to load new content inside DIV box</h2>
+        <h2>Click button to load new content</h2>
     </div>
-    <select id="blueTeam">
-        <option value="blueHS">Blue High School
-        </option>
-        <option value="blueMS">Blue Middle School
-        </option>
-        <option value="blueES">Blue Elementary School
-        </option>
-    </select>
-    <select id="redTeam">
-        <option value="redHS">Red High School
-        </option>
-        <option value="redMS">Red Middle School
-        </option>
-        <option value="redES">Red Elementary School
-        </option>
-    </select>
+    <p>
+        <select id="blueTeam">
+            <option value="HS">Blue High School
+            </option>
+            <option value="MS">Blue Middle School
+            </option>
+            <option value="ES">Blue Elementary School
+            </option>
+        </select>
+    </p>
+    <p>
+        <select id="RedTeam">
+            <option value="HS">Red High School
+            </option>
+            <option value="MS">Red Middle School
+            </option>
+            <option value="ES">Red Elementary School
+            </option>
+        </select>
+        </p>
+    <p>Delay Between Slides (sec): <input type="text" id="delay" name="delay" value="10"/></p>
+    <p>Total Time (min): <input type="text" id="total" name="total" value="10"/></p>
+
+    <p></p>
     <button type="button" onclick="buttonPress()">Load Content</button>
     <button type="button" onclick="reset()">Reload page</button>
 
